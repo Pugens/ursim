@@ -1,0 +1,1 @@
+docker run --rm -it -e ROBOT_MODEL=UR16 -p 6080:6080 -p 29999:29999 -p 30001:30001 -p 30004:30004 -p 30002:30002 -p 50002:50002 -v "%cd%\urcaps:/urcaps" -v "%cd%\programs:/ursim/programs" universalrobots/ursim_e-series
