@@ -1,0 +1,1 @@
+echo y | plink eugenio@TUD1006024 -pw easybot "{ echo "load robot_interaction_lesson.urp"; echo "play"; } | nc 127.0.0.1 29999"
