@@ -1,25 +1,22 @@
-global returnVar = 0
-global Waypoint_home_q = [.0, -90.0,  -90.0,  -90.0,  90.0, .0]
-global Waypoint_wrist_10_q = [.0, -90.0,  -90.0,  -90.0,  .0, .0]
-global Waypoint_wrist_12_q = [.0, -91.04,  -95.18,  -64.75,  .0, -14.0]
-global Waypoint_wrist_14_q = [.0, -92.55,  -97.02,  -50.21,  .0, -29.35]
-global Waypoint_wrist_16_q = [.0, -94.97,  -97.9,  -34.0,  .0, -42.35]
-global Waypoint_wrist_18_q = [.0, -99.74,  -96.47,  -10.17,  .0, -62.0]
-global Waypoint_wrist_20_q = [.0, -103.6,  -93.23,  5.88,  .0, -77.0]
-global Waypoint_3_p = p[.474982043880, .042583352657, .517603489187, 2.684317988755, -1.614976856204, -.053817350726]
-global Waypoint_3_q = [0.45686861652646427, -1.5056286306131499, -1.6941157378163414, -1.5383557301628166, 1.595100113507578, -0.031000033463526755]
-global Waypoint_4_p = p[.474982043805, .042583352620, .325061155887, 2.684317988755, -1.614976856204, -.053817350726]
-global Waypoint_4_q = [0.45686861643832444, -1.6502894002349606, -2.1243241468615377, -0.96348655149795, 1.595100113505314, -0.03100003355165981]
-global Waypoint_1_p = p[-.184547808006, -.439731064965, .278361155850, -.001221359682, 3.116276528482, .038891915637]
-global Waypoint_1_q = [-1.6006999999999998, -1.7271, -2.2029999999999994, -0.8079999999999998, 1.5951, -0.030999999999999694]
-global Waypoint_2_p = p[.474982062654, .042583366370, .278361155850, 2.684318015779, -1.614976858125, -.053817117526]
-global Waypoint_2_q = [0.4568686551761139, -1.7271, -2.2029999999999994, -0.8079999999999998, 1.5951, -0.030999999999999694]
+global returnVar = -1
+
+global speed_ms    = 0.250
+global speed_rads  = 0.750
+global accel_mss   = 2
+global accel_radss = 1
+global blend_radius_m = 0.0
+global ref_frame = p[0,0,0,0,0,0]
+
+global Waypoint_home_wrist_q = [.0, -90.0,  -90.0,  -90.0,  90.0, .0]
+global Waypoint_home_p = p[.474982043880, .042583352657, .517603489187, 2.684317988755, -1.614976856204, -.053817350726]
 
 def q2r(q):
-  idx = 0
-  while (idx < q.length()):
-    q[idx] = d2r(q[idx])
-    idx = idx + 1
+  # joint target q (vector) from deg -> rad
+  i = 0
+  while (i < q.length()):
+    # deg -> rad of i
+    q[i] = d2r(q[i])
+    i = i + 1
   end  
   return q
 end
@@ -27,42 +24,117 @@ end
 while (True):
     switch_1 = returnVar
     
-    # movej(q2r(Waypoint_home_q), a = 1.2, v = 1)
+    if (0 == switch_1):
+      movej(q2r(Waypoint_home_wrist_q), a = 1.2, v = 1)
 
-    if (1 == switch_1):
-        # popup("Wrist singularity", "Message", False, False, blocking = True)
-        while (True):
-          acc=3.0
-          vel=0.5
-          rad = .00001
-          movej(q2r(Waypoint_wrist_10_q), a = acc, v = vel, r=rad)
-          movej(q2r(Waypoint_wrist_12_q), a = acc, v = vel, r=rad)
-          movej(q2r(Waypoint_wrist_14_q), a = acc, v = vel, r=rad)
-          movej(q2r(Waypoint_wrist_16_q), a = acc, v = vel, r=rad)
-          movej(q2r(Waypoint_wrist_18_q), a = acc, v = vel, r=rad)
-          movej(q2r(Waypoint_wrist_20_q), a = acc, v = vel, r=rad)
-          movej(q2r(Waypoint_wrist_18_q), a = acc, v = vel, r=rad)
-          movej(q2r(Waypoint_wrist_16_q), a = acc, v = vel, r=rad)
-          movej(q2r(Waypoint_wrist_14_q), a = acc, v = vel, r=rad)
-          movej(q2r(Waypoint_wrist_12_q), a = acc, v = vel, r=rad)
-          movej(q2r(Waypoint_wrist_10_q), a = acc, v = vel, r=rad)
-        end
-        # while (True):
-        #     movej(get_inverse_kin(Waypoint_3_p, qnear = Waypoint_3_q), a = acc, v = vel)
-        #     movej(get_inverse_kin(Waypoint_4_p, qnear = Waypoint_4_q), a = acc, v = vel)
-        # end
+      global returnVar = -1
 
-        global returnVar = 0
+    elif (1 == switch_1):
+      # popup("Wrist singularity", "Message", False, False, blocking = True)      
+      speed_rads  = 0.750
+      accel_radss = 3
 
+      movej([0.000000, -1.570796, -1.570796, -1.570796, 0.000000, 0.000000],accel_radss,speed_rads,0,0)
+      movej([0.000000, -1.572018, -1.598722, -1.452987, 0.000000, -0.087790],accel_radss,speed_rads,0,0)
+      movej([0.000000, -1.579872, -1.638864, -1.259430, 0.000000, -0.237190],accel_radss,speed_rads,0,0)
+      movej([0.000000, -1.603958, -1.683021, -0.972148, 0.000000, -0.448375],accel_radss,speed_rads,0,0)
+      movej([0.000000, -1.645322, -1.706757, -0.666890, 0.000000, -0.703019],accel_radss,speed_rads,0,0)
+      movej([0.000000, -1.691224, -1.705187, -0.410152, 0.000000, -0.913680],accel_radss,speed_rads,0,0)
+      movej([0.000000, -1.735381, -1.686686, -0.200538, 0.000000, -1.097812],accel_radss,speed_rads,0,0)
+      movej([0.000000, -1.785995, -1.648987, 0.013788, 0.000000, -1.291718],accel_radss,speed_rads,0,0)
+      movej([0.000000, -1.830850, -1.601165, 0.191288, 0.000000, -1.467473],accel_radss,speed_rads,0,0)
+      movej([0.000000, -1.853016, -1.572542, 0.275587, 0.000000, -1.553343],accel_radss,speed_rads,0,0)
+      sleep(0.500)
+      movej([0.000000, -1.830850, -1.601165, 0.191288, 0.000000, -1.467473],accel_radss,speed_rads,0,0)
+      movej([0.000000, -1.785995, -1.648987, 0.013788, 0.000000, -1.291718],accel_radss,speed_rads,0,0)
+      movej([0.000000, -1.735381, -1.686686, -0.200538, 0.000000, -1.097812],accel_radss,speed_rads,0,0)
+      movej([0.000000, -1.691224, -1.705187, -0.410152, 0.000000, -0.913680],accel_radss,speed_rads,0,0)
+      movej([0.000000, -1.645322, -1.706757, -0.666890, 0.000000, -0.703019],accel_radss,speed_rads,0,0)
+      movej([0.000000, -1.603958, -1.683021, -0.972148, 0.000000, -0.448375],accel_radss,speed_rads,0,0)
+      movej([0.000000, -1.579872, -1.638864, -1.259430, 0.000000, -0.237190],accel_radss,speed_rads,0,0)
+      movej([0.000000, -1.572018, -1.598722, -1.452987, 0.000000, -0.087790],accel_radss,speed_rads,0,0)
+      movej([0.000000, -1.570796, -1.570796, -1.570796, 0.000000, 0.000000],accel_radss,speed_rads,0,0)
+        
+      global returnVar = -1
+      
     elif (2 == switch_1):
-        popup("Elbow singularity", "Message", False, False, blocking = True)
-        movel(Waypoint_1_p, a = 1.2, v = 0.25)
-        movel(Waypoint_2_p, a = 1.2, v = 0.25)
-        global returnVar = 0
+      # popup("Wrist lock", "Message", False, False, blocking = True)      
+      speed_rads  = 0.250
+      accel_radss = 1
+      
+      movej([0.000000, -1.570796, -1.570796, -1.570796, 0.000000, 0.000000],accel_radss,speed_rads,0,0)
+      movej([-0.131772, -1.570622, -1.570796, -1.570796, 0.000000, 0.000000],accel_radss,speed_rads,0,0)
+      movej([0.175755, -1.570622, -1.570796, -1.570796, 0.000000, 0.000000],accel_radss,speed_rads,0,0)
+      movej([0.000000, -1.570796, -1.570796, -1.570796, 0.000000, 0.000000],accel_radss,speed_rads,0,0)
+      sleep(0.500)
+      movej([0.000000, -1.853016, -1.572542, 0.275587, 0.000000, -1.553343],accel_radss,speed_rads,0,0)
+      movej([-0.177537, -1.933650, -1.456711, 0.248776, 0.177537, -1.561721],accel_radss,speed_rads,0,0)
+      movej([0.197957, -1.804217, -1.638632, 0.301247, -0.197957, -1.561721],accel_radss,speed_rads,0,0)
+      movej([0.000000, -1.853016, -1.572542, 0.275587, 0.000000, -1.553343],accel_radss,speed_rads,0,0)
+      sleep(0.500)
+      
+      global returnVar = -1
+      
+    elif (3 == switch_1):
+      # popup("Configurations", "Message", False, False, blocking = True)
+      speed_rads  = 0.750
+      accel_radss = 3
+
+      movej([0.000000, -1.570796, -1.570796, -1.570796, 0.000000, 0.000000],accel_radss,speed_rads,0,0)
+      sleep(2)
+      movej([2.445311, -1.252146, 0.840833, 0.411313, 2.445311, 1.570796],accel_radss,speed_rads,0,0)
+      sleep(2)
+      movej([2.445311, 0.003025, -1.569788, -1.574830, -2.445311, -1.570796],accel_radss,speed_rads,0,0.000)
+      sleep(2)
+      movej([0.000000, -2.604171, 0.840833, -4.519844, 0.000000, 1.570796],accel_radss,speed_rads,0,0.000)
+      sleep(2)
+
+      global returnVar = -1
+
+    elif (4 == switch_1):
+      # popup("Elbow singularity", "Message", False, False, blocking = True)
+      speed_rads  = 0.750
+      accel_radss = 3 
+      
+      movej([0.000000, -1.570796, -1.570796, -1.570796, 0.000000, 0.000000],accel_radss,speed_rads,0,0)
+      movej([0.006772, -0.754275, -1.507526, -0.877567, 0.001280, -1.572671],accel_radss,speed_rads,0,0)
+      movej([0.009351, -1.134897, -1.510392, -0.498442, -0.001330, -1.568309],accel_radss,speed_rads,0,blend_radius_m)
+      movej([0.006772, -0.754275, -1.507526, -0.877567, 0.001280, -1.572671],accel_radss,speed_rads,0,0)
+      movej([0.009351, -1.134897, -1.510392, -0.498442, -0.001330, -1.568309],accel_radss,speed_rads,0,0)
+      movej([0.006772, -0.754275, -1.507526, -0.877567, 0.001280, -1.572671],accel_radss,speed_rads,0,0)
+      movej([0.009351, -1.134897, -1.510392, -0.498442, -0.001330, -1.568309],accel_radss,speed_rads,0,0)
+      movej([-0.191819, -1.207124, -1.480174, -0.454281, 0.199840, -1.570461],accel_radss,speed_rads,0,blend_radius_m)
+      movel(pose_trans(ref_frame,p[-0.077534, -0.318301, 0.905571, 1.215104, -1.205396, 1.215104]),accel_mss,speed_ms,0,blend_radius_m)
+      movel(pose_trans(ref_frame,p[0.118235, -0.316731, 0.905640, 1.215104, -1.205396, 1.215104]),accel_mss,speed_ms,0,0)
+      movel(pose_trans(ref_frame,p[-0.077534, -0.318301, 0.905571, 1.215104, -1.205396, 1.215104]),accel_mss,speed_ms,0,0)
+      movel(pose_trans(ref_frame,p[0.118235, -0.316731, 0.905640, 1.215104, -1.205396, 1.215104]),accel_mss,speed_ms,0,0)
+      movel(pose_trans(ref_frame,p[-0.077534, -0.318301, 0.905571, 1.215104, -1.205396, 1.215104]),accel_mss,speed_ms,0,0)
+      movel(pose_trans(ref_frame,p[0.118235, -0.316731, 0.905640, 1.215104, -1.205396, 1.215104]),accel_mss,speed_ms,0,0)
+      movej([0.346441, -1.038811, -1.537605, -0.565185, -0.338419, -1.570439],accel_radss,speed_rads,0,blend_radius_m)
+      popup("Now try to jog me!", "Message", False, False, blocking = True)
+
+      global returnVar = -1
+
+    elif (5 == switch_1):
+      # popup("Elbow singularity", "Message", False, False, blocking = True)
+      speed_rads  = 0.750
+      accel_radss = 3
+
+      movej([0.000000, -1.570796, -1.570796, -1.570796, 0.000000, 0.000000],accel_radss,speed_rads,0,0)
+      movej([-0.100130, -2.633562, -0.150574, -0.357457, -0.031643, -1.570622],accel_radss,speed_rads,0,0)
+      movej([-0.100130, -2.762839, 0.150574, -0.529334, -0.031643, -1.570622],accel_radss,speed_rads,0,0.000)
+      movej([-0.100130, -2.633562, -0.150574, -0.357457, -0.031643, -1.570622],accel_radss,speed_rads,0,0.000)
+      movej([-0.100130, -2.762839, 0.150574, -0.529334, -0.031643, -1.570622],accel_radss,speed_rads,0,0.000)
+      movej([-0.100130, -2.633562, -0.150574, -0.357457, -0.031643, -1.570622],accel_radss,speed_rads,0,0.000)
+      movej([-0.100130, -2.762839, 0.150574, -0.529334, -0.031643, -1.570622],accel_radss,speed_rads,0,0.000)
+      movej([-0.100130, -2.633562, -0.150574, -0.357457, -0.031643, -1.570622],accel_radss,speed_rads,0,0.000)
+      movej([0.000000, -1.570796, -1.570796, -1.570796, 0.000000, 0.000000],accel_radss,speed_rads,0,0)
+
+      global returnVar = -1
 
     else:
         # popup("<html>Wrist singularity=1<br>Elbow singularity=2<br>Pick up tool=3</html>", "Message", False, False, blocking = True)
-        returnVar = request_integer_from_primary_client("Wrist=1, Elbow=2 PnP=3")
+        returnVar = request_integer_from_primary_client("W_sin:1 W_lock:2 Conf:3 S_sin:4 E_sin:4")
 
     end
 end
