@@ -1,4 +1,11 @@
 global returnVar = 0
+global Waypoint_home_q = [.0, -90.0,  -90.0,  -90.0,  90.0, .0]
+global Waypoint_wrist_10_q = [.0, -90.0,  -90.0,  -90.0,  .0, .0]
+global Waypoint_wrist_12_q = [.0, -91.04,  -95.18,  -64.75,  .0, -14.0]
+global Waypoint_wrist_14_q = [.0, -92.55,  -97.02,  -50.21,  .0, -29.35]
+global Waypoint_wrist_16_q = [.0, -94.97,  -97.9,  -34.0,  .0, -42.35]
+global Waypoint_wrist_18_q = [.0, -99.74,  -96.47,  -10.17,  .0, -62.0]
+global Waypoint_wrist_20_q = [.0, -103.6,  -93.23,  5.88,  .0, -77.0]
 global Waypoint_3_p = p[.474982043880, .042583352657, .517603489187, 2.684317988755, -1.614976856204, -.053817350726]
 global Waypoint_3_q = [0.45686861652646427, -1.5056286306131499, -1.6941157378163414, -1.5383557301628166, 1.595100113507578, -0.031000033463526755]
 global Waypoint_4_p = p[.474982043805, .042583352620, .325061155887, 2.684317988755, -1.614976856204, -.053817350726]
@@ -8,16 +15,42 @@ global Waypoint_1_q = [-1.6006999999999998, -1.7271, -2.2029999999999994, -0.807
 global Waypoint_2_p = p[.474982062654, .042583366370, .278361155850, 2.684318015779, -1.614976858125, -.053817117526]
 global Waypoint_2_q = [0.4568686551761139, -1.7271, -2.2029999999999994, -0.8079999999999998, 1.5951, -0.030999999999999694]
 
+def q2r(q):
+  idx = 0
+  while (idx < q.length()):
+    q[idx] = d2r(q[idx])
+    idx = idx + 1
+  end  
+  return q
+end
+
 while (True):
     switch_1 = returnVar
+    
+    # movej(q2r(Waypoint_home_q), a = 1.2, v = 1)
 
     if (1 == switch_1):
-        popup("Wrist singularity", "Message", False, False, blocking = True)
-
+        # popup("Wrist singularity", "Message", False, False, blocking = True)
         while (True):
-            movej(get_inverse_kin(Waypoint_3_p, qnear = Waypoint_3_q), a = 1.3962634015954636, v = 1.0471975511965976)
-            movej(get_inverse_kin(Waypoint_4_p, qnear = Waypoint_4_q), a = 1.3962634015954636, v = 1.0471975511965976)
+          acc=3.0
+          vel=0.5
+          rad = .00001
+          movej(q2r(Waypoint_wrist_10_q), a = acc, v = vel, r=rad)
+          movej(q2r(Waypoint_wrist_12_q), a = acc, v = vel, r=rad)
+          movej(q2r(Waypoint_wrist_14_q), a = acc, v = vel, r=rad)
+          movej(q2r(Waypoint_wrist_16_q), a = acc, v = vel, r=rad)
+          movej(q2r(Waypoint_wrist_18_q), a = acc, v = vel, r=rad)
+          movej(q2r(Waypoint_wrist_20_q), a = acc, v = vel, r=rad)
+          movej(q2r(Waypoint_wrist_18_q), a = acc, v = vel, r=rad)
+          movej(q2r(Waypoint_wrist_16_q), a = acc, v = vel, r=rad)
+          movej(q2r(Waypoint_wrist_14_q), a = acc, v = vel, r=rad)
+          movej(q2r(Waypoint_wrist_12_q), a = acc, v = vel, r=rad)
+          movej(q2r(Waypoint_wrist_10_q), a = acc, v = vel, r=rad)
         end
+        # while (True):
+        #     movej(get_inverse_kin(Waypoint_3_p, qnear = Waypoint_3_q), a = acc, v = vel)
+        #     movej(get_inverse_kin(Waypoint_4_p, qnear = Waypoint_4_q), a = acc, v = vel)
+        # end
 
         global returnVar = 0
 
@@ -28,8 +61,8 @@ while (True):
         global returnVar = 0
 
     else:
-        popup("<html>Wrist singularity=1<br>Elbow singularity=2<br>Pick up tool=3</html>", "Message", False, False, blocking = True)
-        returnVar = request_integer_from_primary_client(">Wrist=1, Elbow=2 PnP=3")
+        # popup("<html>Wrist singularity=1<br>Elbow singularity=2<br>Pick up tool=3</html>", "Message", False, False, blocking = True)
+        returnVar = request_integer_from_primary_client("Wrist=1, Elbow=2 PnP=3")
 
     end
 end

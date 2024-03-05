@@ -1,36 +1,17 @@
-# Script for UR5 with Polyscope controller with user input switch
+# Script to send string over port 127.0.0.1:29999
 
-# Display a popup to get user input
-text_input = popup("Enter 'a' for Motion A or 'b' for Motion B:", "User Input", False, False, blocking=True)
+import socket
 
-# Check the user input
-if text_input == 'a':
-    # Move to Motion A
-    movej(p[0.1, -0.5, 0.3, -1.5, 1.5, 0], a=0.5, v=0.1)
+HOST = "127.0.0.1"  # The server's hostname or IP address
+PORT = 29999  # The port used by the server
 
-    # Open the gripper
-    set_digital_out(2, True)
-    sleep(2)
+with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+    s.connect((HOST, PORT))
+    s.sendall(b"load robot_interaction_lesson_using_file.urp ")
+    data = s.recv(1024)
+    print(f"Received {data!r}")
 
-    # Move to a target position for Motion A
-    movel(p[0.2, -0.4, 0.2, -1.5, 1.5, 0], a=0.5, v=0.1)
-
-    # Close the gripper
-    set_digital_out(2, False)
-    sleep(2)
-
-    # Move back to the starting position for Motion A
-    movej(p[0.1, -0.5, 0.3, -1.5, 1.5, 0], a=0.5, v=0.1)
-
-elif text_input == 'b':
-    # Move to Motion B
-    movej(p[-0.5, -0.3, 0.4, -1.5, 1.5, 0], a=0.5, v=0.1)
-
-    # Perform the actions for Motion B (customize as needed)
-
-    # Move back to the starting position for Motion B
-    movej(p[-0.5, -0.3, 0.4, -1.5, 1.5, 0], a=0.5, v=0.1)
-
-else:
-    # Handle invalid input
-    popup("Invalid input. Please enter 'a' or 'b'.", "Error", False, True)
+    s.sendall(b"play")
+    data = s.recv(1024)
+    print(f"Received {data!r}")
+    
