@@ -25,12 +25,46 @@ while (True):
     switch_1 = returnVar
     
     if (0 == switch_1):
+      popup("Move Home", "Message", False, False, blocking = False)
       movej(q2r(Waypoint_home_wrist_q), a = 1.2, v = 1)
 
       global returnVar = -1
 
     elif (1 == switch_1):
-      # popup("Wrist singularity", "Message", False, False, blocking = True)      
+        popup("MoveJ VS MoveL", "Message", False, False, blocking = False)
+        movej([-0.000000, -1.674961, -1.998559, -1.038862, 1.570796, -0.000000],accel_radss,speed_rads,0,0)
+        movej([0.249111, -1.865705, -1.747895, -2.743309, 0.249971, 1.653736],accel_radss,speed_rads,0,0.000)
+        movej([-0.000000, -1.674961, -1.998559, -1.038862, 1.570796, -0.000000],accel_radss,speed_rads,0,0.000)
+        sleep(2)
+        movel(pose_trans(ref_frame,p[0.479850, -0.174150, 0.357365, 1.190222, -1.204253, 1.226136]),accel_mss,speed_ms,0,0.000)
+        movel(pose_trans(ref_frame,p[0.479850, -0.174150, 0.357365, 2.221441, -2.221441, -0.000000]),accel_mss,speed_ms,0,0.000)
+        sleep(2)
+        movej([-0.000000, -1.674961, -1.998559, -1.038862, 1.570796, -0.000000],accel_radss,speed_rads,0,0)
+        movej([0.249111, -1.865705, -1.747895, -2.743309, 0.249971, 1.653736],accel_radss,speed_rads,0,0.000)
+        movej([-0.000000, -1.674961, -1.998559, -1.038862, 1.570796, -0.000000],accel_radss,speed_rads,0,0.000)
+        sleep(2)
+        movel(pose_trans(ref_frame,p[0.479850, -0.174150, 0.357365, 1.190222, -1.204253, 1.226136]),accel_mss,speed_ms,0,0.000)
+        movel(pose_trans(ref_frame,p[0.479850, -0.174150, 0.357365, 2.221441, -2.221441, -0.000000]),accel_mss,speed_ms,0,0.000)
+        sleep(2)
+        movej([-0.000000, -1.674961, -1.998559, -1.038862, 1.570796, -0.000000],accel_radss,speed_rads,0,0)
+        movej([0.249111, -1.865705, -1.747895, -2.743309, 0.249971, 1.653736],accel_radss,speed_rads,0,0.000)
+        movej([-0.000000, -1.674961, -1.998559, -1.038862, 1.570796, -0.000000],accel_radss,speed_rads,0,0.000)
+        sleep(2)
+        movel(pose_trans(ref_frame,p[0.479850, -0.174150, 0.357365, 1.190222, -1.204253, 1.226136]),accel_mss,speed_ms,0,0.000)
+        movel(pose_trans(ref_frame,p[0.479850, -0.174150, 0.357365, 2.221441, -2.221441, -0.000000]),accel_mss,speed_ms,0,0.000)
+        sleep(2)
+        movej([-0.000000, -1.674961, -1.998559, -1.038862, 1.570796, -0.000000],accel_radss,speed_rads,0,0)
+        movej([0.249111, -1.865705, -1.747895, -2.743309, 0.249971, 1.653736],accel_radss,speed_rads,0,0.000)
+        movej([-0.000000, -1.674961, -1.998559, -1.038862, 1.570796, -0.000000],accel_radss,speed_rads,0,0.000)
+        sleep(2)
+        movel(pose_trans(ref_frame,p[0.479850, -0.174150, 0.357365, 1.190222, -1.204253, 1.226136]),accel_mss,speed_ms,0,0.000)
+        movel(pose_trans(ref_frame,p[0.479850, -0.174150, 0.357365, 2.221441, -2.221441, -0.000000]),accel_mss,speed_ms,0,0.000)
+        sleep(2)
+
+        global returnVar = -1
+
+    elif (2 == switch_1):
+      popup("Wrist singularity", "Message", False, False, blocking = False)      
       speed_rads  = 0.750
       accel_radss = 3
 
@@ -57,8 +91,8 @@ while (True):
         
       global returnVar = -1
       
-    elif (2 == switch_1):
-      # popup("Wrist lock", "Message", False, False, blocking = True)      
+    elif (5 == switch_1):
+      popup("Wrist lock", "Message", False, False, blocking = False)      
       speed_rads  = 0.250
       accel_radss = 1
       
@@ -75,10 +109,10 @@ while (True):
       
       global returnVar = -1
       
-    elif (3 == switch_1):
-      # popup("Configurations", "Message", False, False, blocking = True)
-      speed_rads  = 0.750
-      accel_radss = 3
+    elif (6 == switch_1):
+      popup("Configurations", "Message", False, False, blocking = False)
+      speed_rads  = 1.750
+      accel_radss = 2
 
       movej([0.000000, -1.570796, -1.570796, -1.570796, 0.000000, 0.000000],accel_radss,speed_rads,0,0)
       sleep(2)
@@ -88,11 +122,13 @@ while (True):
       sleep(2)
       movej([0.000000, -2.604171, 0.840833, -4.519844, 0.000000, 1.570796],accel_radss,speed_rads,0,0.000)
       sleep(2)
+      movej([0.000000, -1.570796, -1.570796, -1.570796, 0.000000, 0.000000],accel_radss,speed_rads,0,0)
+      sleep(2)
 
       global returnVar = -1
 
     elif (4 == switch_1):
-      # popup("Elbow singularity", "Message", False, False, blocking = True)
+      popup("Shoulde singularity", "Message", False, False, blocking = False)
       speed_rads  = 0.750
       accel_radss = 3 
       
@@ -111,12 +147,11 @@ while (True):
       movel(pose_trans(ref_frame,p[-0.077534, -0.318301, 0.905571, 1.215104, -1.205396, 1.215104]),accel_mss,speed_ms,0,0)
       movel(pose_trans(ref_frame,p[0.118235, -0.316731, 0.905640, 1.215104, -1.205396, 1.215104]),accel_mss,speed_ms,0,0)
       movej([0.346441, -1.038811, -1.537605, -0.565185, -0.338419, -1.570439],accel_radss,speed_rads,0,blend_radius_m)
-      popup("Now try to jog me!", "Message", False, False, blocking = True)
 
       global returnVar = -1
 
-    elif (5 == switch_1):
-      # popup("Elbow singularity", "Message", False, False, blocking = True)
+    elif (3 == switch_1):
+      popup("Elbow singularity", "Message", False, False, blocking = False)
       speed_rads  = 0.750
       accel_radss = 3
 
@@ -134,7 +169,13 @@ while (True):
 
     else:
         # popup("<html>Wrist singularity=1<br>Elbow singularity=2<br>Pick up tool=3</html>", "Message", False, False, blocking = True)
-        returnVar = request_integer_from_primary_client("W_sin:1 W_lock:2 Conf:3 S_sin:4 E_sin:4")
-
+        returnVar = request_integer_from_primary_client("Home:0 J_vs_L:1 W_sin:2 E_sin:3 S_sin:4 W_lock:5 Conf:6")
+        # my_variable = request_boolean_from_primary_client(“<html>Width: 20 inches Height: 10 inches Would you like to continue with these settings?<\html>”)
+        # returnVar = request_float_from_primary_client(“description string”)
+        # returnVar = request_integer_from_primary_client(“description string”)
+        # returnVar = request_string_from_primary_client(“description string”)
+        # global var = 12
+        # global var_two = 47
+        # popup("<html>look, a variable! "+to_str(var)+"<br>look, another! "+to_str(var_two)+"<html>")
     end
 end

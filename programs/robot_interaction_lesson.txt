@@ -1,21 +1,4 @@
  Program
    Variables Setup
    Robot Program
-     Loop
-       Switch returnVar
-         Case 1
-           Popup: Wrist singularity
-           Loop
-             MoveJ
-               Waypoint_3
-               Waypoint_4
-           returnVar≔0
-         Case 2
-           Popup: Elbow singularity
-           MoveL
-             Waypoint_1
-             Waypoint_2
-           returnVar≔0
-         Default Case
-           Popup: <html>Wrist singularity=1<br>Elbow singularity=2<br>Pick up tool=3</html>
-            returnVar = request_integer_from_primary_client(">Wrist=1, Elbow=2 PnP=3")
+     Script: robot_interaction_lesson_file.script
