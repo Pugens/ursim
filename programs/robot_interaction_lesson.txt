@@ -1,4 +1,4 @@
  Program
-   Variables Setup
+   Init Variables
    Robot Program
      Script: robot_interaction_lesson_file.script
